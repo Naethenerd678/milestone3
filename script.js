@@ -35,5 +35,51 @@ pageItems.forEach(book => {
 });
 }
 
+//PAGNATION
+function setupPagination(){
+  $("#pagination").empty();
+
+  for (let i = 1; i <= 5; i++) {
+    $("#pagination").append(`<button class="pageBtn">{i}</button>`);
+  }
+
+  $(".pageBtn").click(function() {
+    currentPage = $(this).text();
+    displayResults();
+  });
+}
+
+//DETAILS
+$(document).on("click", "item", function () {
+  let id = $(this).data("id")
+
+  $.getJSON(`https://www.googleapis.com/books/v1/volumes/${id}', function (data) {
+
+  $("#details").html(`
+            <h3>${info.title} </h3>
+               <p> <strong>Author:</strong> $(info.authors}</p>
+               <p>${info.description || "No description available"}</p>
+            `);
+          });
+      });
+
+      //COLLECTION (Featured)
+      function loadCollection() {
+          $,getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction", function(data)
+              data.items.forEach(book => {
+                  let title = book.volumeInfo.title;
+
+                  $("#collection").append(`
+                      <div class="item" data-id="$(book.id}">
+                            <p>${title}</p>
+  </div>
+`);
+});
+});
+
+}
+
+loadCollection();
+
 
   
