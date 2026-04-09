@@ -2,6 +2,7 @@ let allResults = [];
 let currentPage = 1;
 
 $(document).ready(function() {
+  loadCollection();
 //SEARCH
 $("#searchBtn").click(function() {
   let query = $("#searchInput").val();
