@@ -70,7 +70,7 @@ $(document).on("click", ".item", function () {
           $.getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction&maxResults=15", function(data) {
               $("#collection").empty();
             
-              data.items.forEach(book => {
+              (data.items || []).forEach(book => {
                   let title = book.volumeInfo.title;
                   let img = book.volumeInfo.imageLinks?.thumbnail || "";
 
@@ -81,11 +81,8 @@ $(document).on("click", ".item", function () {
                           </div>
 `);
 });
-});
+            });
 
 }
-
-loadCollection();
-
-
-  
+  //
+});
