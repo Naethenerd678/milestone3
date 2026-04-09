@@ -1,6 +1,21 @@
 # Book Search SPA - Milestone 3
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This is a **Single Page Application (SPA)** built using **jQuery AJAX** and the **Google Books API**.
 
 ## Features
