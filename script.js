@@ -3,18 +3,18 @@ let currentPage = 1;
 
 //SEARCH
 $("#searchBtn").click(function() {
-  let query = $("searchInput").val();
+  let query = $("#searchInput").val();
 
-  $,getJSON(`https://www.googleapi.com/books/v1/volumes?q=${query}&maxResults=40`, function (data) {
-  allResults = data.items || [];
-  currentPage = 1;
-  displayResults();
-  setupPagination();
+  $.getJSON(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40`, function (data) {
+      allResults = data.items || [];
+      currentPage = 1;
+      displayResults();
+      setupPagination();
 });
 });
 
 //DISPLAY RESULTS
-function displayResults(); {
+function displayResults() {
 $("#results").empty();
 
 let start = (currentPage - 1) * 10;
@@ -23,11 +23,11 @@ let end =  start + 10;
 let pageItems = allResults.slice(start, end);
 
 pageItems.forEach(book => {
-    let title = books.volumeInfo.title || "No Title";
+    let title = book.volumeInfo.title || "No Title";
     let img = book.volumeInfo.imageLinks?.thumbnail || "";
 
     $("#results").append(`
-        <div class="item" data id="${book.id}">
+        <div class="item" data-id="${book.id}">
               <img src="${img}">
               <p>${title}</p>
         </div>
@@ -50,13 +50,14 @@ function setupPagination(){
 }
 
 //DETAILS
-$(document).on("click", "item", function () {
+$(document).on("click", ".item", function () {
   let id = $(this).data("id")
 
-  $.getJSON(`https://www.googleapis.com/books/v1/volumes/${id}', function (data) {
+  $.getJSON(`https://www.googleapis.com/books/v1/volumes/${id}`, function (data) {
 
   $("#details").html(`
             <h3>${info.title} </h3>
+            <h3>${data.volumeInfo.title} </h3>
                <p> <strong>Author:</strong> $(info.authors}</p>
                <p>${info.description || "No description available"}</p>
             `);
@@ -65,7 +66,7 @@ $(document).on("click", "item", function () {
 
       //COLLECTION (Featured)
       function loadCollection() {
-          $,getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction", function(data)
+          $.getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction", function(data)
               data.items.forEach(book => {
                   let title = book.volumeInfo.title;
 
