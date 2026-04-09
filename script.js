@@ -1,6 +1,7 @@
 let allResults = [];
 let currentPage = 1;
 
+$(document).ready(function() {
 //SEARCH
 $("#searchBtn").click(function() {
   let query = $("#searchInput").val();
@@ -44,7 +45,7 @@ function setupPagination(){
   }
 
   $(".pageBtn").click(function() {
-    currentPage = $(this).text();
+    currentPage = parseInt($(this).text());
     displayResults();
   });
 }
@@ -65,7 +66,7 @@ $(document).on("click", ".item", function () {
 
       //COLLECTION (Featured)
       function loadCollection() {
-          $.getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction", function(data) {
+          $.getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction&maxResults=15", function(data) {
               $("#collection").empty();
             
               data.items.forEach(book => {
