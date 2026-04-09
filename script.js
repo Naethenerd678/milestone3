@@ -1,3 +1,4 @@
+console.log("JS is working");
 let allResults = [];
 let currentPage = 1;
 
