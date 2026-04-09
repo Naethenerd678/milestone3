@@ -40,7 +40,7 @@ function setupPagination(){
   $("#pagination").empty();
 
   for (let i = 1; i <= 5; i++) {
-    $("#pagination").append(`<button class="pageBtn">{i}</button>`);
+    $("#pagination").append(`<button class="pageBtn">${i}</button>`);
   }
 
   $(".pageBtn").click(function() {
@@ -56,24 +56,27 @@ $(document).on("click", ".item", function () {
   $.getJSON(`https://www.googleapis.com/books/v1/volumes/${id}`, function (data) {
 
   $("#details").html(`
-            <h3>${info.title} </h3>
             <h3>${data.volumeInfo.title} </h3>
-               <p> <strong>Author:</strong> $(info.authors}</p>
-               <p>${info.description || "No description available"}</p>
+               <p><strong>Author:</strong> ${data.volumeInfo.authors?.join(",") || "Unknown"}</p>
+               <p>${data.volumeInfo.description|| "No description available"}</p>
             `);
           });
       });
 
       //COLLECTION (Featured)
       function loadCollection() {
-          $.getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction", function(data)
+          $.getJSON("https://www.googleapis.com/books/v1/volumes?q=subject:fiction", function(data) {
+              $("#collection").empty();
+            
               data.items.forEach(book => {
                   let title = book.volumeInfo.title;
+                  let img = book.volumeInfo.imageLinks?.thumbnail || "";
 
                   $("#collection").append(`
-                      <div class="item" data-id="$(book.id}">
+                      <div class="item" data-id="${book.id}">
+                      <img src="${img}" alt="${title}">
                             <p>${title}</p>
-  </div>
+                          </div>
 `);
 });
 });
